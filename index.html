@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>狗城猫王 · 洗阳羊 · 全33回在线读</title>
+<style>
+:root{--bg:#f4f2ee;--ink:#22201d;--line:#dcd7cd;--acc:#3b6ea5;--soft:#7a736a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",serif;line-height:1.75}
+header{position:sticky;top:0;z-index:20;background:rgba(244,242,238,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 16px}
+.hd{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h1{font-size:19px;margin:0;letter-spacing:2px;font-weight:700}
+.by{font-size:13px;color:var(--soft)}
+.sp{flex:1}
+button,select{font:inherit;font-size:13px;padding:6px 11px;border:1px solid var(--line);
+  border-radius:6px;background:#fff;color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--acc);color:var(--acc)}
+button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+main{max-width:1180px;margin:0 auto;padding:18px 16px 90px;display:flex;gap:20px;align-items:flex-start}
+nav{width:274px;flex:0 0 274px;position:sticky;top:62px;max-height:calc(100vh - 80px);
+  overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+nav h2{font-size:13px;margin:4px 6px 10px;color:var(--soft);letter-spacing:1px;font-weight:600}
+nav ol{list-style:none;margin:0;padding:0}
+nav li{margin:1px 0}
+nav a{display:block;padding:7px 9px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:13.5px}
+nav a:hover{background:#eef2f7}
+nav a.cur{background:var(--acc);color:#fff}
+nav a .i{display:block;font-size:11px;opacity:.62;margin-top:1px}
+nav a.cur .i{opacity:.85}
+.stage{flex:1;min-width:0}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.cap{padding:9px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--soft);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cap b{color:var(--ink);font-size:14px;font-weight:600}
+img{display:block;width:100%;height:auto;background:#fafafa}
+.bar{position:sticky;bottom:0;z-index:15;background:rgba(244,242,238,.94);
+  backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:9px 16px}
+.bar>div{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+input[type=range]{flex:1;min-width:120px;accent-color:var(--acc)}
+.pn{font-variant-numeric:tabular-nums;font-size:13px;color:var(--soft);white-space:nowrap}
+.hide{display:none}
+#cont{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px 30px;line-height:1.95;font-size:16px}
+#cont h3{font-size:17px;margin:0 0 4px}
+#cont .m{font-size:12.5px;color:var(--soft);margin-bottom:16px}
+#cont p{margin:0 0 1em;text-indent:2em}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 40px;font-size:12.5px;color:var(--soft);line-height:1.9}
+a.ext{color:var(--acc)}
+@media(max-width:860px){nav{display:none}main{padding:12px 10px 80px}#cont{padding:20px 16px}}
+</style>
+</head>
+<body>
+<header><div class="hd">
+  <h1>狗城猫王</h1>
+  <span class="by">洗阳羊 · 全 33 回</span>
+  <span class="sp"></span>
+  <select id="sel" title="跳转章节"></select>
+  <button id="tocBtn">目录</button>
+</div></header>
+
+<main>
+  <nav id="toc"><h2>目录（按连载顺序）</h2><ol id="tocList"></ol></nav>
+  <div class="stage">
+    <div id="imgView"></div>
+  </div>
+</main>
+
+<div class="bar"><div>
+  <button id="prev">◀ 上一页</button>
+  <input type="range" id="rng" min="1" max="71" value="1">
+  <button id="next">下一页 ▶</button>
+  <span class="pn" id="pn">1 / 71</span>
+</div></div>
+
+<footer>
+  原刊：《新少年》（CN 21-1005/C，ISSN 1002-6231，共青团辽宁省委主办），2012 年增刊C1 起连载，2015 年第 5 期全文完。<br>
+  页面为杂志影印扫描图，未作重排。全 33 回署名均为「◆洗阳羊」，系同一作者原创连载。<br>
+  说明：知网影印 PDF 自带的 OCR 文字层质量极差（会把标题识别成无关文字），故文字版仅供参考，以影印图为准。<br>
+  源文件：<a class="ext" href="https://github.com/adgykun/goucheng-maowang/releases">Releases</a> ·
+  <a class="ext" href="chapters.json">章节数据</a> ·
+  <a class="ext" href="README.md">仓库说明</a>
+</footer>
+
+<script>
+let M=null, cur=1;
+
+async function load(){
+  try{
+    const r = await fetch('chapters.json');
+    M = await r.json();
+  }catch(e){
+    document.getElementById('imgView').innerHTML='<div class="card"><div class="cap">加载失败：'+e.message+'</div></div>';
+    return;
+  }
+  const {list, pages} = M;
+  // 目录
+  const ol=document.getElementById('tocList'), sel=document.getElementById('sel');
+  list.forEach(c=>{
+    const li=document.createElement('li');
+    li.innerHTML='<a href="#p'+c.from+'" data-n="'+c.n+'"><b>'+String(c.n).padStart(2,'0')+'</b> '+
+      c.title.replace(/（.*$/,'')+'<span class="i">'+c.issue+' · '+c.from+'-'+c.to+'页</span></a>';
+    ol.appendChild(li);
+    const o=document.createElement('option');
+    o.value=c.from; o.textContent=String(c.n).padStart(2,'0')+' '+c.title;
+    sel.appendChild(o);
+  });
+  sel.onchange=e=>{go(+e.target.value)};
+  ol.onclick=e=>{const a=e.target.closest('a');if(a){e.preventDefault();go(+a.href.split('#p')[1])}};
+  document.getElementById('rng').max=pages;
+  build(); go(1);
+  addEventListener('hashchange',()=>{const n=location.hash.match(/^#p(\d+)/);if(n)go(+n[1])});
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'){go(cur+1);e.preventDefault()}
+    if(e.key==='ArrowLeft'){go(cur-1);e.preventDefault()}
+  });
+}
+
+function build(){
+  const iv=document.getElementById('imgView');
+  iv.innerHTML='';
+  for(let i=1;i<=M.pages;i++){
+    const d=document.createElement('div');
+    d.className='card'; d.id='pg'+i;
+    const c=M.list.find(x=>i>=x.from&&i<=x.to);
+    const isStart = c && i===c.from;
+    d.innerHTML='<div class="cap">'+(isStart?'<b>'+String(c.n).padStart(2,'0')+' '+c.title+'</b>':
+      (c?c.title.replace(/（.*$/,'')+'（接上）':''))+'<span class="sp"></span><span class="pn">第 '+i+' 页</span></div>'+
+      '<img loading="lazy" src="pages/p'+String(i).padStart(2,'0')+'.jpg" alt="第'+i+'页">';
+    iv.appendChild(d);
+  }
+}
+
+function go(p){
+  p=Math.max(1,Math.min(M.pages,p));
+  const el=document.getElementById('pg'+p);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  setCur(p);
+}
+
+function setCur(p){
+  cur=p;
+  document.getElementById('pn').textContent=p+' / '+M.pages;
+  document.getElementById('rng').value=p;
+  const c=M.list.find(x=>p>=x.from&&p<=x.to);
+  document.querySelectorAll('#tocList a').forEach(a=>a.classList.toggle('cur', c && +a.dataset.n===c.n));
+  if(c) document.getElementById('sel').value=c.from;
+}
+
+let ticking=false;
+function onScroll(){
+  if(ticking) return; ticking=true;
+  requestAnimationFrame(()=>{
+    ticking=false;
+    let best=1, bd=1e9;
+    for(let i=1;i<=M.pages;i++){
+      const el=document.getElementById('pg'+i); if(!el) continue;
+      const d=Math.abs(el.getBoundingClientRect().top-70);
+      if(d<bd){bd=d;best=i}
+    }
+    setCur(best);
+  });
+}
+
+document.getElementById('rng').oninput=e=>go(+e.target.value);
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+// 文字版已移除：知网影印 PDF 的 OCR 层会整行识别出错（曾把标题识别成虚构的意大利署名），
+// 为避免以讹传讹，本站只提供影印原图。
+document.getElementById('tocBtn').onclick=()=>{
+  const n=document.getElementById('toc');
+  n.style.display = (n.style.display==='none'||!n.style.display) ? 'block':'none';
+};
+
+load();
+</script>
+</body>
+</html>
